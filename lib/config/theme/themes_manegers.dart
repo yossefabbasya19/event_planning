@@ -1,0 +1,86 @@
+
+import 'package:evently_plan/core/colors_maneger.dart';
+import 'package:flutter/material.dart';
+
+
+abstract class ThemesManegers {
+  static ThemeData light = ThemeData(
+    useMaterial3: false,
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.transparent,
+      centerTitle: true,
+      titleTextStyle:TextStyle(color: ColorsManager.blue,fontSize: 20),
+        elevation: 0,
+      iconTheme: IconThemeData(color: ColorsManager.blue)
+    ),
+    tabBarTheme: TabBarTheme(),
+    scaffoldBackgroundColor: ColorsManager.white,
+    inputDecorationTheme: InputDecorationTheme(
+      contentPadding: EdgeInsets.all(16),
+      constraints: BoxConstraints(maxHeight: 100),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: ColorsManager.gray, width: 1),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: ColorsManager.gray, width: 1),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: ColorsManager.red, width: 1),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      prefixIconColor: ColorsManager.gray,
+      suffixIconColor: ColorsManager.gray,
+    ),
+    bottomAppBarTheme: BottomAppBarTheme(color: ColorsManager.blue),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      type: BottomNavigationBarType.fixed,
+      selectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+      unselectedLabelStyle: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+      ),
+      unselectedItemColor: Colors.white,
+      selectedItemColor: Colors.white,
+    ),
+    textTheme: TextTheme(
+      //tabBar color text
+      displayMedium: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: ColorsManager.white,
+      ),
+      labelMedium: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: ColorsManager.blue,
+      ),
+      // end
+      titleSmall: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        color: ColorsManager.white,
+      ),
+      titleLarge: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
+        color: ColorsManager.white,
+      ),
+      titleMedium: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: ColorsManager.black,
+      ),
+
+      labelSmall: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: ColorsManager.gray,
+      ),
+    ),
+  );
+  static ThemeData dark = ThemeData();
+}
