@@ -11,6 +11,7 @@ class AssetsManeger {
   static String workShopImage = '$base/workshop.png';
   static String exhibitionImage = '$base/exhibition.png';
   static String bookHubImage = '$base/book_club.png';
+  static String profileImage = '$base/profile_image.png';
 }
 class SvgManeger {
   static String base = 'assets/image';

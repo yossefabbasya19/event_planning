@@ -1,17 +1,17 @@
 flutter_native_splash:
   color: "#F2FEFF"
-  image: assets/evently_logo.png
-  branding: assets/branding_logo.png
-  color_dark: "#F2FEFF"
-  image_dark: assets/evently_logo.png
-  branding_dark: assets/branding_logo.png
+  image: assets/image/evently_logo.png
+  branding: assets/image/branding_logo.png
+  #color_dark: "#F2FEFF"
+  #image_dark: assets/evently_logo.png
+  #branding_dark: assets/branding_logo.png
   android_12:
-    image: assets/android12frame.png
+    image: assets/image/android12frame.png
     icon_background_color: "#F2FEFF"
-    branding: assets/branding_logo.png
-    image_dark: assets/android12frame.png
-    icon_background_color_dark: "#F2FEFF"
-    branding_dark: assets/branding_logo.png
+    branding: assets/image/branding_logo.png
+    #image_dark: assets/android12frame.png
+   # icon_background_color_dark: "#F2FEFF"
+   # branding_dark: assets/branding_logo.png
     # The image parameter sets the splash screen icon image.  If this parameter is not specified,
   # the app's launcher icon will be used instead.
   # Please note that the splash screen will be clipped to a circle on the center of the screen.
