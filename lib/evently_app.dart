@@ -26,7 +26,7 @@ class _EventlyAppState extends State<EventlyApp> {
         darkTheme: ThemesManegers.dark,
         themeMode: ThemeMode.light,
         onGenerateRoute: MyRouter.myRouter,
-        initialRoute: MyRouter.signIn,
+        initialRoute: MyRouter.mainLayout,
       );
   }
 }
