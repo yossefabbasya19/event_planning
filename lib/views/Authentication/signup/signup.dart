@@ -5,7 +5,7 @@ import 'package:evently_plan/views/Authentication/widgets/custom_text_button.dar
 import 'package:evently_plan/views/Authentication/widgets/custom_text_form_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Signup extends StatelessWidget{
   Signup({super.key});
@@ -41,8 +41,8 @@ class Signup extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorsManager.white,
-        title: Text("Register"),
+
+        title: Text(AppLocalizations.of(context)!.register),
         centerTitle: true,
       ),
       body: Form(
@@ -56,40 +56,39 @@ class Signup extends StatelessWidget{
                   Image(image: AssetImage(AssetsManeger.logo)),
                   SizedBox(height: 24),
                   CustomTextFormField(
-                    txt: "name",
+                    txt: AppLocalizations.of(context)!.name,
                     icon: Icons.person,
                   ),
                   SizedBox(height: 16),
                   CustomTextFormField(
                     validate: emailValidate,
-                    txt: "Email",
+                    txt: AppLocalizations.of(context)!.email,
                     icon: Icons.email,
                   ),
                   SizedBox(height: 16),
                   CustomTextFormField(
                     validate: passwordValidate,
-                    txt: "Password",
+                    txt: AppLocalizations.of(context)!.password,
                     isPassword: true,
                     icon: Icons.lock,
                   ),
                   SizedBox(height: 16),
                   CustomTextFormField(
                     validate: passwordValidate,
-                    txt: "Password",
+                    txt: AppLocalizations.of(context)!.re_password,
                     isPassword: true,
                     icon: Icons.lock,
                   ),
                   SizedBox(height: 20),
-                  CustomElevatedButton(txt: "Create Account",onPressed:validator ,),
+                  CustomElevatedButton(txt: AppLocalizations.of(context)!.create_account,onPressed:validator ,),
                   SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Already Have Account ?",
-                        style: Theme.of(context).textTheme.titleMedium,
+                        AppLocalizations.of(context)!.already_have_account,                        style: Theme.of(context).textTheme.titleMedium,
                       ),
-                      CustomTextButton(txt: "Login", onPressed: () {
+                      CustomTextButton(txt: AppLocalizations.of(context)!.login, onPressed: () {
                         Navigator.pop(context);
                       }),
                     ],

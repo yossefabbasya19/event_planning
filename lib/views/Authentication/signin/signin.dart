@@ -1,5 +1,4 @@
-
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:evently_plan/core/assets_maneger.dart';
 import 'package:evently_plan/core/colors_maneger.dart';
 import 'package:evently_plan/core/my_router/my_router.dart';
@@ -19,9 +18,7 @@ class _SigninState extends State<Signin> {
   GlobalKey<FormState> formKey = GlobalKey();
 
   void validator() {
-    if (formKey.currentState!.validate()) {
-
-    }
+    if (formKey.currentState!.validate()) {}
   }
 
   @override
@@ -43,7 +40,7 @@ class _SigninState extends State<Signin> {
                         return "plz,enter value";
                       }
                     },
-                    txt: "Email",
+                    txt: AppLocalizations.of(context)!.email,
                     icon: Icons.email,
                   ),
                   SizedBox(height: 16),
@@ -53,27 +50,28 @@ class _SigninState extends State<Signin> {
                         return "plz,enter value";
                       }
                     },
-                    txt: "Password",
+                    txt: AppLocalizations.of(context)!.password,
                     isPassword: true,
                     icon: Icons.lock,
+                    maxLineSelect: 1,
                   ),
-        
+
                   CustomTextButton(
                     alignment: Alignment.centerRight,
-                    txt: 'Forget Password?',
+                    txt: AppLocalizations.of(context)!.forget_password,
                     onPressed: () {},
                   ),
-                  CustomElevatedButton(txt: 'Login', onPressed: validator),
+                  CustomElevatedButton(txt: AppLocalizations.of(context)!.login, onPressed: validator),
                   SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don’t Have Account ?",
+                        AppLocalizations.of(context)!.do_not_have_account,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       CustomTextButton(
-                        txt: "Create Account",
+                        txt: AppLocalizations.of(context)!.create_account,
                         onPressed: () {
                           Navigator.pushNamed(context, MyRouter.signup);
                         },
@@ -98,8 +96,11 @@ class _SigninState extends State<Signin> {
                       ),
                       onPressed: () {},
                       label: Text(
-                        "Login With Google",
-                        style: TextStyle(color: ColorsManager.blue, fontSize: 20),
+                        AppLocalizations.of(context)!.login_with_google,
+                        style: TextStyle(
+                          color: ColorsManager.blue,
+                          fontSize: 20,
+                        ),
                       ),
                       icon: Image(image: AssetImage(AssetsManeger.googleLogo)),
                     ),

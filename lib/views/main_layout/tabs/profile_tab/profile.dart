@@ -2,6 +2,7 @@ import 'package:evently_plan/core/colors_maneger.dart';
 import 'package:evently_plan/views/main_layout/tabs/profile_tab/widgets/profile_drop_down_button.dart';
 import 'package:evently_plan/views/main_layout/tabs/profile_tab/widgets/profile_header.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -23,7 +24,7 @@ class _ProfileState extends State<Profile> {
         ProfileHeader(),
         ProfileDropDownButton(
           items: language,
-          label: "Language",
+          label: AppLocalizations.of(context)!.language,
           selected: selectLanguage,
           onChange: (value) {
             selectLanguage = value!;
@@ -32,7 +33,7 @@ class _ProfileState extends State<Profile> {
         ),
         ProfileDropDownButton(
           items: theme,
-          label: "Theme",
+          label: AppLocalizations.of(context)!.theme,
           selected: selectTheme,
           onChange: (value) {
             selectTheme = value!;
@@ -57,7 +58,7 @@ class _ProfileState extends State<Profile> {
                 backgroundColor: ColorsManager.lightRed,
               ),
               onPressed: () {},
-              label: Text("Logout"),
+              label: Text(AppLocalizations.of(context)!.logout),
               icon: Icon(Icons.login,),
             ),
           ),

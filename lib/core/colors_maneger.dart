@@ -10,5 +10,5 @@ abstract class ColorsManager{
   static const Color lightBlack = Color(0xff1C1C1C) ;
   static const Color dartBlue = Color(0xff0052B4) ;
   static const Color brown = Color(0xffFF9811) ;
-  static const Color dartColors = Color(0xff101127) ;
+  static const Color darkModePrime = Color(0xff101127) ;
 }

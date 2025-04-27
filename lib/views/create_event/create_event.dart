@@ -1,5 +1,5 @@
 
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:evently_plan/core/DM/category.dart';
 import 'package:evently_plan/core/colors_maneger.dart';
 import 'package:evently_plan/core/widgets/tab_bar_controller.dart';
@@ -21,8 +21,9 @@ class _CreateEventState extends State<CreateEvent> {
 
   @override
   Widget build(BuildContext context) {
+    List<Category>categorysWithOutAll = getCategorysWithOutAll(context);
     return Scaffold(
-      appBar: AppBar(title: Text("Create Event")),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.create_event)),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,19 +55,19 @@ class _CreateEventState extends State<CreateEvent> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'title',
+                    AppLocalizations.of(context)!.title,
                     style: Theme.of(
                       context,
                     ).textTheme.titleMedium!.copyWith(fontSize: 16),
                   ),
                   SizedBox(height: 8),
                   CustomTextFormField(
-                    txt: "Event Title",
+                    txt: AppLocalizations.of(context)!.event_title,
                     icon: FontAwesomeIcons.penToSquare,
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'Description',
+                    AppLocalizations.of(context)!.description,
                     style: Theme.of(
                       context,
                     ).textTheme.titleMedium!.copyWith(fontSize: 16),
@@ -74,7 +75,7 @@ class _CreateEventState extends State<CreateEvent> {
                   SizedBox(height: 8),
                   CustomTextFormField(
                     maxLineSelect: 5,
-                    txt: "Event Description",
+                    txt: AppLocalizations.of(context)!.event_description,
                     icon: FontAwesomeIcons.penToSquare,
                   ),
                   SizedBox(height: 16),
@@ -84,11 +85,11 @@ class _CreateEventState extends State<CreateEvent> {
                       SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          "Event Date",
+                          AppLocalizations.of(context)!.event_date,
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
-                      CustomTextButton(txt: "Choose Date", onPressed: () {}),
+                      CustomTextButton(txt: AppLocalizations.of(context)!.choose_date, onPressed: () {}),
                     ],
                   ),
                   Row(
@@ -97,15 +98,15 @@ class _CreateEventState extends State<CreateEvent> {
                       SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          "Event Time",
+                          AppLocalizations.of(context)!.event_time,
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
-                      CustomTextButton(txt: "Choose Date", onPressed: () {}),
+                      CustomTextButton(txt: AppLocalizations.of(context)!.choose_time, onPressed: () {}),
                     ],
                   ),
                   SizedBox(height: 16),
-                  CustomElevatedButton(txt: "Add Event", onPressed: () {}),
+                  CustomElevatedButton(txt: AppLocalizations.of(context)!.add_event, onPressed: () {}),
                 ],
               ),
             ),

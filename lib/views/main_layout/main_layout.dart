@@ -23,7 +23,7 @@ class _MainLayoutState extends State<MainLayout> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorsManager.blue,
+        backgroundColor: Theme.of(context).primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
           side: BorderSide(color: Colors.white, width: 4),

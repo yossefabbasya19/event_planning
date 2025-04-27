@@ -29,8 +29,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         obscureText: isObscureText,
         validator: widget.validate,
         decoration: InputDecoration(
-          prefixIcon: Icon(widget.icon),
+          prefixIcon: Icon(widget.icon,color: Theme.of(context).iconTheme.color,),
           suffixIcon: IconButton(
+            color: Theme.of(context).iconTheme.color,
             onPressed: () {
               isObscureText = !isObscureText;
               setState(() {});
