@@ -41,5 +41,7 @@
 "gaming":"Gaming",
 "work_shop":"WorkShop",
 "exhibition":"Exhibition",
-"book_hub":"BookHub"
+"book_hub":"BookHub",
+"light":"Light",
+"dark":"dark"
 }
