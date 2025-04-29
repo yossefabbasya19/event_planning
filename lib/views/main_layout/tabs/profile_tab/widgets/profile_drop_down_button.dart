@@ -18,7 +18,7 @@ class ProfileDropDownButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 16,right: 16,top: 24),
+      padding: EdgeInsets.only(left: 16, right: 16, top: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -53,7 +53,13 @@ class ProfileDropDownButton extends StatelessWidget {
                   icon: Icon(Icons.arrow_drop_down_rounded),
                   items:
                       items.map((e) {
-                        return DropdownMenuItem(child: Text(e), value: e);
+                        return DropdownMenuItem(
+                          value: e,
+                          child: Text(
+                            e,
+                            style: Theme.of(context).textTheme.labelMedium!,
+                          ),
+                        );
                       }).toList(),
                   onChanged: onChange,
                 ),
