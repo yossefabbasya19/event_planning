@@ -4,18 +4,17 @@ import 'package:evently_plan/core/widgets/tab_bar_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class HeaderHomeTab extends StatelessWidget {
   final String userName;
   final String locationName;
   final void Function(int) onTap;
   final int selectTab;
 
-  const   HeaderHomeTab({
+  const HeaderHomeTab({
     super.key,
     required this.userName,
     required this.locationName,
-    required this.onTap,
+     required this.onTap,
     required this.selectTab,
   });
 
@@ -64,10 +63,11 @@ class HeaderHomeTab extends StatelessWidget {
             CustomTabBarController(
               categorysList: category,
               selectColorBG: Theme.of(context).indicatorColor,
-                selectColorFont: Theme.of(context).focusColor,
-                unselectColorBG: Colors.transparent,
-                unselectColorFont: ColorsManager.white,
-                onTap: onTap, selectTabIndex: selectTab
+              selectColorFont: Theme.of(context).focusColor,
+              unselectColorBG: Colors.transparent,
+              unselectColorFont: ColorsManager.white,
+              onTap: onTap,
+              selectTabIndex: selectTab,
             ),
           ],
         ),

@@ -6,12 +6,13 @@ class CustomTextFormField extends StatefulWidget {
   bool isPassword;
   IconData icon;
   final int? maxLineSelect;
+  final TextEditingController? myController;
 
   CustomTextFormField({
-     this.validate,
+    this.validate,
     required this.txt,
     this.isPassword = false,
-    required this.icon,  this.maxLineSelect
+    required this.icon, this.maxLineSelect, this.myController
   });
 
   @override
@@ -25,25 +26,35 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return SizedBox(
       child: TextFormField(
+        controller:widget.myController,
         maxLines: widget.maxLineSelect,
         obscureText: isObscureText,
         validator: widget.validate,
         decoration: InputDecoration(
-          prefixIcon: Icon(widget.icon,color: Theme.of(context).iconTheme.color,),
+          prefixIcon: Icon(widget.icon, color: Theme
+              .of(context)
+              .iconTheme
+              .color,),
           suffixIcon: IconButton(
-            color: Theme.of(context).iconTheme.color,
+            color: Theme
+                .of(context)
+                .iconTheme
+                .color,
             onPressed: () {
               isObscureText = !isObscureText;
               setState(() {});
             },
             icon:
-                widget.isPassword
-                    ? isObscureText
-                        ? Icon(Icons.visibility)
-                        : Icon(Icons.visibility_off)
-                    : SizedBox(),
+            widget.isPassword
+                ? isObscureText
+                ? Icon(Icons.visibility)
+                : Icon(Icons.visibility_off)
+                : SizedBox(),
           ),
-          label: Text(widget.txt, style: Theme.of(context).textTheme.labelSmall),
+          label: Text(widget.txt, style: Theme
+              .of(context)
+              .textTheme
+              .labelSmall),
         ),
       ),
     );

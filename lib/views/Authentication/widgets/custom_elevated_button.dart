@@ -6,10 +6,11 @@ class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
     super.key,
     required this.txt,
-    required this.onPressed,
+    required this.onPressed,  this.isLoading=false,
   });
 
   final String txt;
+  final bool? isLoading ;
   final void Function() onPressed;
 
   @override
@@ -25,7 +26,7 @@ class CustomElevatedButton extends StatelessWidget {
           backgroundColor: WidgetStatePropertyAll(ColorsManager.blue),
         ),
         onPressed: onPressed,
-        child: Text(
+        child: isLoading!? CircularProgressIndicator(color: Colors.white,):Text(
           txt,
           style: TextStyle(
             color: ColorsManager.white,

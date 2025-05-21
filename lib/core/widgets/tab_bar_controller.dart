@@ -3,7 +3,7 @@ import 'package:evently_plan/core/DM/category.dart';
 import 'package:evently_plan/core/widgets/tab_bar.dart';
 import 'package:flutter/material.dart';
 
-class CustomTabBarController extends StatelessWidget {
+class CustomTabBarController extends StatefulWidget {
   final void Function(int) onTap;
   final int selectTabIndex;
   final Color selectColorBG;
@@ -24,25 +24,36 @@ class CustomTabBarController extends StatelessWidget {
   });
 
   @override
+  State<CustomTabBarController> createState() => _CustomTabBarControllerState();
+}
+
+class _CustomTabBarControllerState extends State<CustomTabBarController> {
+    int selectTab =  0;
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: categorysList.length,
+      length: widget.categorysList.length,
       child: TabBar(
-        onTap: onTap,
+        onTap: (value) {
+          widget.onTap(value);
+          selectTab = value;
+          setState(() {
+          });
+        },
         labelPadding: EdgeInsets.symmetric(horizontal: 5),
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         indicatorColor: Colors.transparent,
         indicatorSize: TabBarIndicatorSize.label,
         isScrollable: true,
         tabs:
-            categorysList.map((e) {
+            widget.categorysList.map((e) {
               return CustomTabBar(
-                selectColorBG: selectColorBG,
-                unselectColorBG: unselectColorBG,
-                selectColorFont: selectColorFont,
-                unselectColorFont: unselectColorFont,
+                selectColorBG: widget.selectColorBG,
+                unselectColorBG: widget.unselectColorBG,
+                selectColorFont: widget.selectColorFont,
+                unselectColorFont: widget.unselectColorFont,
                 category: e,
-                isSelected: e.id == selectTabIndex.toString(),
+                isSelected: widget.categorysList.indexOf(e) == selectTab,
               );
             }).toList(),
       ),

@@ -1,3 +1,5 @@
+import 'package:evently_plan/views/Authentication/signin/cubit/login_account_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:evently_plan/core/assets_maneger.dart';
 import 'package:evently_plan/core/colors_maneger.dart';
@@ -16,6 +18,8 @@ class Signin extends StatefulWidget {
 
 class _SigninState extends State<Signin> {
   GlobalKey<FormState> formKey = GlobalKey();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   void validator() {
     if (formKey.currentState!.validate()) {}
@@ -24,7 +28,16 @@ class _SigninState extends State<Signin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: BlocConsumer<LoginAccountCubit, LoginAccountState>(
+  listener: (context, state) {
+    if(state is LoginAccountFailure){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errMessage)));
+    }if(state is LoginAccountSuccess){
+      Navigator.pushReplacementNamed(context, MyRouter.mainLayout);
+    }
+  },
+  builder: (context, state) {
+    return SingleChildScrollView(
         child: SafeArea(
           child: Form(
             key: formKey,
@@ -35,6 +48,7 @@ class _SigninState extends State<Signin> {
                   Image(image: AssetImage(AssetsManeger.logo)),
                   SizedBox(height: 24),
                   CustomTextFormField(
+                    myController: emailController,
                     validate: (value) {
                       if (value!.isEmpty) {
                         return "plz,enter value";
@@ -45,6 +59,7 @@ class _SigninState extends State<Signin> {
                   ),
                   SizedBox(height: 16),
                   CustomTextFormField(
+                    myController: passwordController,
                     validate: (value) {
                       if (value!.isEmpty) {
                         return "plz,enter value";
@@ -61,7 +76,15 @@ class _SigninState extends State<Signin> {
                     txt: AppLocalizations.of(context)!.forget_password,
                     onPressed: () {},
                   ),
-                  CustomElevatedButton(txt: AppLocalizations.of(context)!.login, onPressed: validator),
+                  CustomElevatedButton(
+                    isLoading: state is LoginAccountLoading?true:false,
+                    txt: AppLocalizations.of(context)!.login,
+                    onPressed: () {
+                      BlocProvider.of<LoginAccountCubit>(
+                        context,
+                      ).logIn(emailController.text, passwordController.text);
+                    },
+                  ),
                   SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -110,7 +133,9 @@ class _SigninState extends State<Signin> {
             ),
           ),
         ),
-      ),
+      );
+  },
+),
     );
   }
 }

@@ -3,7 +3,6 @@ import 'package:evently_plan/core/my_router/my_router.dart';
 import 'package:evently_plan/core/provider/config_provider/config_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +30,7 @@ class _EventlyAppState extends State<EventlyApp> {
         darkTheme: ThemesManegers.dark,
         themeMode: configProvider.currentTheme,
         onGenerateRoute: MyRouter.myRouter,
-        initialRoute: MyRouter.mainLayout,
+        initialRoute: MyRouter.signIn,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(configProvider.currentLanguage),
