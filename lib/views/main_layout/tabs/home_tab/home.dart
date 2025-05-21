@@ -1,6 +1,11 @@
+import 'package:evently_plan/core/DM/category.dart';
+import 'package:evently_plan/core/DM/user_DM.dart';
+import 'package:evently_plan/views/main_layout/tabs/home_tab/cubit/add_event_to_favorite_list/add_event_to_favorite_list_cubit.dart';
+import 'package:evently_plan/views/main_layout/tabs/home_tab/repo/home_repo_imple.dart';
 import 'package:evently_plan/views/main_layout/tabs/home_tab/widgets/events_card_listview.dart';
 import 'package:evently_plan/views/main_layout/tabs/home_tab/widgets/header_home_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -17,15 +22,15 @@ class _HomeState extends State<Home> {
     return Column(
       children: [
         HeaderHomeTab(
-          userName: "yossef abba",
+          userName: UserDm.currentUser!.userName,
           locationName: "Cairo , egypt",
+          selectTab: selectTab,
           onTap: (value) {
             selectTab = value;
             setState(() {});
           },
-          selectTab: selectTab,
         ),
-        EventsCardListview()
+        EventsCardListview(selectedCategory: selectTab),
       ],
     );
   }

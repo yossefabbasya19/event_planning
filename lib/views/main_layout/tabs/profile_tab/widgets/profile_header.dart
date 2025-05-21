@@ -1,3 +1,4 @@
+import 'package:evently_plan/core/DM/user_DM.dart';
 import 'package:evently_plan/core/assets_maneger.dart';
 import 'package:evently_plan/core/colors_maneger.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class ProfileHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "yossef abbasya",
+                    UserDm.currentUser!.userName,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
@@ -35,7 +36,7 @@ class ProfileHeader extends StatelessWidget {
                   SizedBox(height: 16,),
                   Text(
                     softWrap: true,
-                    "yossefabbasya@gmail.com",
+                    UserDm.currentUser!.email,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
