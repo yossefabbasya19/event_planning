@@ -1,6 +1,7 @@
 import 'package:evently_plan/core/provider/config_provider/config_provider.dart';
 import 'package:evently_plan/evently_app.dart';
 import 'package:evently_plan/firebase_options.dart';
+import 'package:evently_plan/core/provider/map_provider/pick_location.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -12,8 +13,11 @@ void main() async{
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ConfigProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => PickLocation()),
+        ChangeNotifierProvider(create: (context) => ConfigProvider(),)
+      ],
       child: const EventlyApp(),
     ),
   );

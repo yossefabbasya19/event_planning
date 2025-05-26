@@ -1,9 +1,14 @@
+import 'package:evently_plan/core/assets_maneger.dart';
 import 'package:evently_plan/core/extintion/date_ex.dart';
 import 'package:evently_plan/core/extintion/time_ex.dart';
+import 'package:evently_plan/core/provider/config_provider/config_provider.dart';
 import 'package:evently_plan/core/validation_rules/validation_rules.dart';
 import 'package:evently_plan/views/create_event/feature_function/add_event.dart';
 import 'package:evently_plan/views/create_event/feature_function/choose_date.dart';
 import 'package:evently_plan/views/create_event/feature_function/choose_time.dart';
+import 'package:evently_plan/core/provider/map_provider/pick_location.dart';
+import 'package:evently_plan/views/create_event/widgets/select_location_display.dart';
+import 'package:evently_plan/views/create_event/widgets/select_location_map.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:evently_plan/core/DM/category.dart';
 import 'package:evently_plan/core/colors_maneger.dart';
@@ -13,6 +18,8 @@ import 'package:evently_plan/views/Authentication/widgets/custom_text_button.dar
 import 'package:evently_plan/views/Authentication/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CreateEvent extends StatefulWidget {
   const CreateEvent({super.key});
@@ -29,11 +36,11 @@ class _CreateEventState extends State<CreateEvent> {
   DateTime? eventDate;
 
   TimeOfDay? eventTime;
-
+  PickLocation? provider ;
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
+    provider!.eventLocation= null;
     titleController.dispose();
     descriptionController.dispose();
   }
@@ -42,6 +49,7 @@ class _CreateEventState extends State<CreateEvent> {
 
   @override
   Widget build(BuildContext context) {
+     provider = Provider.of<PickLocation>(context);
     List<Category> categorysWithOutAll = getCategorysWithOutAll(context);
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.create_event)),
@@ -56,7 +64,7 @@ class _CreateEventState extends State<CreateEvent> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: Image(
-                    image: AssetImage(categorysWithOutAll[selectTab].imagePath),
+                    image: AssetImage(selectedCategory?.imagePath??categorysWithOutAll[0].imagePath),
                   ),
                 ),
               ),
@@ -85,6 +93,7 @@ class _CreateEventState extends State<CreateEvent> {
                     ),
                     SizedBox(height: 8),
                     CustomTextFormField(
+                      maxLineSelect: 1,
                       validate: ValidationRules.titleValidation,
                       myController: titleController,
                       txt: AppLocalizations.of(context)!.event_title,
@@ -150,18 +159,48 @@ class _CreateEventState extends State<CreateEvent> {
                         ),
                       ],
                     ),
+                    Consumer<PickLocation>(
+                      builder: (context, provider, child) {
+                        return CustomWidgetToDisplayInfo(
+                          imagePath: AssetsManeger.locationLogo,
+                          title: Text(
+                            style: Theme.of(context).textTheme.labelMedium,
+                            AppLocalizations.of(context)!.choose_event_location,
+                          ),
+                          icon: Icons.arrow_forward_ios_sharp,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) =>
+                                        SelectLocationMap(provider: provider),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                     SizedBox(height: 16),
                     CustomElevatedButton(
                       txt: AppLocalizations.of(context)!.add_event,
                       onPressed: () {
-                        if(formKey.currentState!.validate()){
+                        if (formKey.currentState!.validate()) {
+                          if (provider!.eventLocation == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("plz enter place")),
+                            );
+                            return;
+                          }
                           addEvent(
+                            provider!.eventLocation!,
                             titleController,
                             descriptionController,
                             selectedCategory,
                             eventDate,
                             context,
                           );
+                          Navigator.pop(context);
                         }
                       },
                     ),

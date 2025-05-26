@@ -74,7 +74,9 @@ class _SigninState extends State<Signin> {
                   CustomTextButton(
                     alignment: Alignment.centerRight,
                     txt: AppLocalizations.of(context)!.forget_password,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, MyRouter.forgetPassword);
+                    },
                   ),
                   CustomElevatedButton(
                     isLoading: state is LoginAccountLoading?true:false,

@@ -43,5 +43,6 @@
 "exhibition":"Exhibition",
 "book_hub":"BookHub",
 "light":"Light",
-"dark":"dark"
+"dark":"dark",
+"choose_event_location": "Choose Event Location"
 }

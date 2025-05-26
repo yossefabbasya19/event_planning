@@ -1,7 +1,9 @@
 import 'package:evently_plan/core/colors_maneger.dart';
+import 'package:evently_plan/core/my_router/my_router.dart';
 import 'package:evently_plan/core/provider/config_provider/config_provider.dart';
 import 'package:evently_plan/views/main_layout/tabs/profile_tab/widgets/profile_drop_down_button.dart';
 import 'package:evently_plan/views/main_layout/tabs/profile_tab/widgets/profile_header.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -73,7 +75,10 @@ class _ProfileState extends State<Profile> {
                 ),
                 backgroundColor: ColorsManager.lightRed,
               ),
-              onPressed: () {},
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.pushReplacementNamed(context, MyRouter.signIn);
+              },
               label: Text(AppLocalizations.of(context)!.logout),
               icon: Icon(Icons.login),
             ),

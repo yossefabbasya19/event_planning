@@ -1,22 +1,51 @@
 import 'package:evently_plan/core/DM/category.dart';
 import 'package:evently_plan/core/colors_maneger.dart';
+import 'package:evently_plan/core/common_function/get_location_address.dart';
+import 'package:evently_plan/core/provider/map_provider/pick_location.dart';
 import 'package:evently_plan/core/widgets/tab_bar_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class HeaderHomeTab extends StatelessWidget {
+class HeaderHomeTab extends StatefulWidget {
   final String userName;
-  final String locationName;
+  final PickLocation provider;
   final void Function(int) onTap;
   final int selectTab;
 
   const HeaderHomeTab({
     super.key,
     required this.userName,
-    required this.locationName,
-     required this.onTap,
+    required this.provider,
+    required this.onTap,
     required this.selectTab,
   });
+
+  @override
+  State<HeaderHomeTab> createState() => _HeaderHomeTabState();
+}
+
+class _HeaderHomeTabState extends State<HeaderHomeTab> {
+  String address = '';
+
+  @override
+  void initState() {
+    setAddress();
+    super.initState();
+  }
+
+  void setAddress() async {
+    await widget.provider.getLocation(context);
+    getLocationAddress(
+      LatLng(
+        widget.provider.currentLocation!.latitude!,
+        widget.provider.currentLocation!.longitude!,
+      ),
+    ).then((value) {
+      address = value;
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +72,7 @@ class HeaderHomeTab extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
               child: Text(
-                userName,
+                widget.userName,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
@@ -53,10 +82,7 @@ class HeaderHomeTab extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Icon(Icons.location_on_outlined, color: ColorsManager.white),
-                  Text(
-                    locationName,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
+                  Text(address, style: Theme.of(context).textTheme.titleSmall),
                 ],
               ),
             ),
@@ -66,8 +92,8 @@ class HeaderHomeTab extends StatelessWidget {
               selectColorFont: Theme.of(context).focusColor,
               unselectColorBG: Colors.transparent,
               unselectColorFont: ColorsManager.white,
-              onTap: onTap,
-              selectTabIndex: selectTab,
+              onTap: widget.onTap,
+              selectTabIndex: widget.selectTab,
             ),
           ],
         ),

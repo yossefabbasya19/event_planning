@@ -5,14 +5,16 @@ import 'package:flutter/cupertino.dart';
 
 class EventDm {
   String eventID;
+  String userID;
   final String title;
   final String description;
   final Category category;
   final DateTime eventDate;
-  final int? lat;
-  final int? lng;
+  final double? lat;
+  final double? lng;
 
   EventDm({
+    required this.userID,
     this.eventID = '',
     required this.title,
     required this.description,
@@ -24,6 +26,9 @@ class EventDm {
 
   factory EventDm.fromJson(json, BuildContext context) {
     return EventDm(
+      userID: json["userID"],
+      lat: json['lat'],
+      lng: json['long'],
       eventID:json["id"],
       title: json[kEventTitle],
       description: json[kEventDescription],
@@ -36,11 +41,14 @@ class EventDm {
 
   Map<String, dynamic> toJson() {
     return {
+      'userID':userID,
       "id":eventID,
       kEventTitle: title,
       kEventDescription: description,
       kEventCategory: category.id,
       kEventEventDate:Timestamp.fromDate(eventDate),
+      "lat":lat,
+      "long":lng,
     };
   }
 }
