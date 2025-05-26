@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ConfigProvider extends ChangeNotifier {
   ThemeMode currentTheme = ThemeMode.light;
@@ -8,7 +9,6 @@ class ConfigProvider extends ChangeNotifier {
   void configTheme(ThemeMode themeMode) {
     if (themeMode == currentTheme) return;
     currentTheme = themeMode;
-    print(currentTheme);
     notifyListeners();
   }
   void configLanguage(String language){
@@ -16,4 +16,5 @@ class ConfigProvider extends ChangeNotifier {
     currentLanguage = language;
     notifyListeners();
   }
+
 }

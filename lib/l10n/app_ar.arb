@@ -41,5 +41,6 @@
   "exhibition": "معرض",
   "book_hub": "نادي الكتب",
   "light": "فاتح",
-  "dark": "غامق"
+  "dark": "غامق",
+  "choose_event_location": "اختار المكان"
 }

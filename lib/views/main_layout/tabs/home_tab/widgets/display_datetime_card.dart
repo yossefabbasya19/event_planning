@@ -8,20 +8,23 @@ class DisplayDatetimeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.zero,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text(
-              "${dateTime.day}",
-              style: Theme.of(
-                context,
-              ).textTheme.labelMedium!.copyWith(fontSize: 20),
-            ),
-            Text(dateTime.getMonthName, style: Theme.of(context).textTheme.labelMedium),
-          ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical:4),
+      child: Card(
+        margin: EdgeInsets.zero,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Text(
+                "${dateTime.day}",
+                style: Theme.of(
+                  context,
+                ).textTheme.labelMedium!.copyWith(fontSize: 20),
+              ),
+              Text(dateTime.getMonthName, style: Theme.of(context).textTheme.labelMedium),
+            ],
+          ),
         ),
       ),
     );

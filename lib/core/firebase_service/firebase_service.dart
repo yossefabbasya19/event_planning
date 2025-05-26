@@ -111,4 +111,12 @@ abstract class FirebaseService {
     UserDm.currentUser!.favoritesList=userFavorites;
     addUserToFireStore(UserDm.currentUser!);
   }
+  static Future<void> deleteSelectEvent(String eventID,BuildContext context) async{
+    CollectionReference<EventDm> events =getCollectionRef(context);
+    await events.doc(eventID).delete();
+  }
+  static Future<void> updateSelectEvent(BuildContext context,EventDm event) async{
+    CollectionReference<EventDm> events =getCollectionRef(context);
+    await events.doc(event.eventID).set(event);
+  }
 }

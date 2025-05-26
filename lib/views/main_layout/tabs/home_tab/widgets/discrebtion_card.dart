@@ -53,7 +53,7 @@ class _descriptionCardState extends State<descriptionCard> {
           children: [
             Expanded(
               child: Text(
-                widget.event.description,
+                widget.event.title,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontWeight: FontWeight.w700,
                   fontSize: 14,

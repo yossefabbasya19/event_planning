@@ -28,7 +28,12 @@ class CustomTabBarController extends StatefulWidget {
 }
 
 class _CustomTabBarControllerState extends State<CustomTabBarController> {
-    int selectTab =  0;
+    late int selectTab ;
+    @override
+  void initState() {
+      selectTab =  widget.selectTabIndex;
+      super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

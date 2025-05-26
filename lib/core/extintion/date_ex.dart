@@ -9,4 +9,12 @@ extension DateEx on DateTime {
     DateFormat dateFormat = DateFormat("dd-MM-yyyy");
     return dateFormat.format(this);
   }
+  String get dateFormatedForListTile{
+    DateFormat dateFormat = DateFormat("dd MMMM yyyy");
+    return dateFormat.format(this);
+  }
+  String get dateFormatWithHourAndMinutes{
+    DateFormat dateFormat = DateFormat("hh:mma");
+    return dateFormat.format(this);
+  }
 }

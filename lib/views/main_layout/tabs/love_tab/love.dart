@@ -56,22 +56,25 @@ class _LoveState extends State<Love> {
                         },
                       ),
                     ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: snapShot.data!.length,
-                        itemBuilder: (context, index) {
-                          if (currentUserFavorites.contains(
-                            snapShot.data![index].eventID,
-                          )) {
-                            return EventDetailsCard(
-                              eventDm: snapShot.data![index],
-                            );
-                          } else {
-                            return SizedBox();
-                          }
-                        },
-                      ),
-                    ),
+                    currentUserFavorites.isNotEmpty
+                        ? Expanded(
+                          child: ListView.builder(
+                            itemCount: snapShot.data!.length,
+                            itemBuilder: (context, index) {
+                              print(currentUserFavorites);
+                              if (currentUserFavorites.contains(
+                                snapShot.data![index].eventID,
+                              )) {
+                                return EventDetailsCard(
+                                  eventDm: snapShot.data![index],
+                                );
+                              } else {
+                                return SizedBox();
+                              }
+                            },
+                          ),
+                        )
+                        : Center(child: Text("don't have favorites events")),
                   ],
                 );
               } else {

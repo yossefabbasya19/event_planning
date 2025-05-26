@@ -47,6 +47,10 @@ dependencies:
   firebase_auth: ^5.5.4
   dartz: ^0.10.1
   flutter_bloc: ^9.1.1
+  google_maps_flutter: ^2.12.2
+  geolocator: ^14.0.0
+  location: ^8.0.0
+  geocoding: ^3.0.0
 
 
 dev_dependencies:
