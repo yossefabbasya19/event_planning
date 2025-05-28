@@ -100,9 +100,9 @@ class _EventDetailsState extends State<EventDetails> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Description"),
+                      Text("Description",style: Theme.of(context).textTheme.displayMedium,),
                       SizedBox(height: 8,),
-                      Text(widget.eventDm.description),
+                      Text(widget.eventDm.description,style: Theme.of(context).textTheme.displayMedium,),
                     ],
                   ),
                 ),

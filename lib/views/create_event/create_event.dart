@@ -1,4 +1,5 @@
 import 'package:evently_plan/core/assets_maneger.dart';
+import 'package:evently_plan/core/common_function/get_location_address.dart';
 import 'package:evently_plan/core/extintion/date_ex.dart';
 import 'package:evently_plan/core/extintion/time_ex.dart';
 import 'package:evently_plan/core/provider/config_provider/config_provider.dart';
@@ -34,13 +35,14 @@ class _CreateEventState extends State<CreateEvent> {
   int selectTab = 0;
   Category? selectedCategory;
   DateTime? eventDate;
-
+String? address;
   TimeOfDay? eventTime;
-  PickLocation? provider ;
+  PickLocation? provider;
+
   @override
   void dispose() {
     super.dispose();
-    provider!.eventLocation= null;
+    provider!.eventLocation = null;
     titleController.dispose();
     descriptionController.dispose();
   }
@@ -49,7 +51,7 @@ class _CreateEventState extends State<CreateEvent> {
 
   @override
   Widget build(BuildContext context) {
-     provider = Provider.of<PickLocation>(context);
+    provider = Provider.of<PickLocation>(context);
     List<Category> categorysWithOutAll = getCategorysWithOutAll(context);
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.create_event)),
@@ -64,7 +66,10 @@ class _CreateEventState extends State<CreateEvent> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: Image(
-                    image: AssetImage(selectedCategory?.imagePath??categorysWithOutAll[0].imagePath),
+                    image: AssetImage(
+                      selectedCategory?.imagePath ??
+                          categorysWithOutAll[0].imagePath,
+                    ),
                   ),
                 ),
               ),
@@ -159,26 +164,26 @@ class _CreateEventState extends State<CreateEvent> {
                         ),
                       ],
                     ),
-                    Consumer<PickLocation>(
-                      builder: (context, provider, child) {
-                        return CustomWidgetToDisplayInfo(
-                          imagePath: AssetsManeger.locationLogo,
-                          title: Text(
-                            style: Theme.of(context).textTheme.labelMedium,
-                            AppLocalizations.of(context)!.choose_event_location,
+                    CustomWidgetToDisplayInfo(
+                      imagePath: AssetsManeger.locationLogo,
+                      title: Text(
+                        style: Theme.of(context).textTheme.labelMedium,
+                        "${address ?? AppLocalizations.of(context)!.choose_event_location}",
+                      ),
+                      icon: Icons.arrow_forward_ios_sharp,
+                      onPressed: () async{
+                       await  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) =>
+                                    SelectLocationMap(provider: provider!),
                           ),
-                          icon: Icons.arrow_forward_ios_sharp,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) =>
-                                        SelectLocationMap(provider: provider),
-                              ),
-                            );
-                          },
                         );
+                        address = await getLocationAddress(provider!.eventLocation!);
+                        setState(() {
+
+                        });
                       },
                     ),
                     SizedBox(height: 16),

@@ -1,6 +1,7 @@
 import 'package:evently_plan/core/DM/event_Dm.dart';
 import 'package:evently_plan/core/DM/user_DM.dart';
 import 'package:evently_plan/core/assets_maneger.dart';
+import 'package:evently_plan/core/common_function/get_location_address.dart';
 import 'package:evently_plan/core/extintion/date_ex.dart';
 import 'package:evently_plan/core/extintion/time_ex.dart';
 import 'package:evently_plan/core/firebase_service/firebase_service.dart';
@@ -47,6 +48,7 @@ class _EditEventState extends State<EditEvent> {
     ).indexWhere((element) => element.id == widget.eventDm.category.id);
     super.didChangeDependencies();
   }
+
   PickLocation? provider;
 
   @override
@@ -57,11 +59,13 @@ class _EditEventState extends State<EditEvent> {
     descriptionController.dispose();
   }
 
+  String? address;
+
   GlobalKey<FormState> formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-     provider = Provider.of<PickLocation>(context);
+    provider = Provider.of<PickLocation>(context);
     List<Category> categorysWithOutAll = getCategorysWithOutAll(context);
     return Scaffold(
       appBar: AppBar(title: Text("Edit Event")),
@@ -102,9 +106,13 @@ class _EditEventState extends State<EditEvent> {
                   children: [
                     Text(
                       AppLocalizations.of(context)!.title,
-                      style: Theme.of(
+                      style: Theme
+                          .of(
                         context,
-                      ).textTheme.titleMedium!.copyWith(fontSize: 16),
+                      )
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(fontSize: 16),
                     ),
                     SizedBox(height: 8),
                     CustomTextFormField(
@@ -117,9 +125,13 @@ class _EditEventState extends State<EditEvent> {
                     SizedBox(height: 16),
                     Text(
                       AppLocalizations.of(context)!.description,
-                      style: Theme.of(
+                      style: Theme
+                          .of(
                         context,
-                      ).textTheme.titleMedium!.copyWith(fontSize: 16),
+                      )
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(fontSize: 16),
                     ),
                     SizedBox(height: 8),
                     CustomTextFormField(
@@ -138,7 +150,10 @@ class _EditEventState extends State<EditEvent> {
                           child: Text(
                             eventDate?.dateFormated ??
                                 AppLocalizations.of(context)!.event_date,
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .bodySmall,
                           ),
                         ),
                         CustomTextButton(
@@ -158,7 +173,10 @@ class _EditEventState extends State<EditEvent> {
                           child: Text(
                             eventTime?.timeFormated ??
                                 AppLocalizations.of(context)!.event_time,
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .bodySmall,
                           ),
                         ),
                         CustomTextButton(
@@ -177,19 +195,28 @@ class _EditEventState extends State<EditEvent> {
                     CustomWidgetToDisplayInfo(
                       imagePath: AssetsManeger.locationLogo,
                       title: Text(
-                        style: Theme.of(context).textTheme.labelMedium,
-                        AppLocalizations.of(context)!.choose_event_location,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .labelMedium,
+                        address ??
+                            AppLocalizations.of(context)!.choose_event_location,
                       ),
                       icon: Icons.arrow_forward_ios_sharp,
-                      onPressed: () {
-                        Navigator.push(
+                      onPressed: () async {
+                        await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder:
                                 (context) =>
-                                    SelectLocationMap(provider: provider!),
+                                SelectLocationMap(provider: provider!),
                           ),
                         );
+                        address = await getLocationAddress(provider!
+                            .eventLocation!);
+                        setState(() {
+
+                        });
                       },
                     ),
 
@@ -197,36 +224,38 @@ class _EditEventState extends State<EditEvent> {
                     CustomElevatedButton(
                       txt: 'Update Event',
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {
+                       /* if (formKey.currentState!.validate()) {
                           if (provider!.eventLocation == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text("plz enter place")),
                             );
                             return;
-                          }
+                          }*/
                           updateEvent(
                             EventDm(
-                              eventID: widget.eventDm.eventID,
-                              userID: UserDm.currentUser!.userID,
-                              title:
-                                  titleController.text.isEmpty
-                                      ? widget.eventDm.title
-                                      : titleController.text,
-                              description:
-                                  descriptionController.text.isEmpty
-                                      ? widget.eventDm.description
-                                      : descriptionController.text,
-                              category:
-                                  selectedCategory ??
-                                  categorysWithOutAll[selectTab],
-                              eventDate: eventDate ?? widget.eventDm.eventDate,
-                              lng: provider!.eventLocation!.longitude,
-                              lat: provider!.eventLocation!.latitude
+                                eventID: widget.eventDm.eventID,
+                                userID: UserDm.currentUser!.userID,
+                                title:
+                                titleController.text.isEmpty
+                                    ? widget.eventDm.title
+                                    : titleController.text,
+                                description:
+                                descriptionController.text.isEmpty
+                                    ? widget.eventDm.description
+                                    : descriptionController.text,
+                                category:
+                                selectedCategory ??
+                                    categorysWithOutAll[selectTab],
+                                eventDate: eventDate ??
+                                    widget.eventDm.eventDate,
+                                lng: provider?.eventLocation?.longitude??widget.eventDm.lng,
+                                lat: provider?.eventLocation?.latitude??widget.eventDm.lat
                             ),
                           );
-                          Navigator.pushReplacementNamed(context,MyRouter.mainLayout);
+                          Navigator.pushReplacementNamed(context, MyRouter
+                              .mainLayout);
                         }
-                      },
+                     // },
                     ),
                   ],
                 ),
