@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:evently_plan/core/failure/failure.dart';
 import 'package:evently_plan/core/firebase_service/firebase_service.dart';
 import 'package:evently_plan/views/Authentication/signin/repo/log_in_repo.dart';
-import 'package:evently_plan/views/Authentication/signup/repo/signup_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LogInRepoImple extends LogInRepo {

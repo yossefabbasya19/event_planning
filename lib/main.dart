@@ -1,4 +1,5 @@
 import 'package:evently_plan/core/provider/config_provider/config_provider.dart';
+import 'package:evently_plan/core/shared_prefs/shared_prefs.dart';
 import 'package:evently_plan/evently_app.dart';
 import 'package:evently_plan/firebase_options.dart';
 import 'package:evently_plan/core/provider/map_provider/pick_location.dart';
@@ -11,6 +12,7 @@ void main() async{
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+ await  SharedPrefs().init();
 
   runApp(
     MultiProvider(

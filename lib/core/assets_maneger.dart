@@ -15,6 +15,8 @@ class AssetsManeger {
   static String locationLogo = '$base/Frame 78.png';
   static String calenderImage = '$base/calender.png';
   static String forgetPasswordImage = '$base/Group.png';
+  static String egyptFlag = '$base/EG.png';
+  static String usaFlag = '$base/LR.png';
 }
 class SvgManeger {
   static String base = 'assets/image';

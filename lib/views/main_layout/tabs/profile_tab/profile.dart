@@ -1,6 +1,7 @@
 import 'package:evently_plan/core/colors_maneger.dart';
 import 'package:evently_plan/core/my_router/my_router.dart';
 import 'package:evently_plan/core/provider/config_provider/config_provider.dart';
+import 'package:evently_plan/core/shared_prefs/shared_prefs.dart';
 import 'package:evently_plan/views/main_layout/tabs/profile_tab/widgets/profile_drop_down_button.dart';
 import 'package:evently_plan/views/main_layout/tabs/profile_tab/widgets/profile_header.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,21 +18,20 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   List<String> language = ["english", "عربي"];
-  String selectLanguage = "English";
+  String selectLanguage =
+      SharedPrefs().currentLanguage == "en" ? "english" : "عربي";
   late List<String> theme;
-  String selectTheme = "Light";
+  String selectTheme = SharedPrefs().currentTheme;
+
   @override
   void didChangeDependencies() {
-    theme = [
-      AppLocalizations.of(context)!.light,
-      AppLocalizations.of(context)!.dark,
-    ];
-    selectTheme =theme[0];
+    theme = ["Light", "dark"];
+    //selectTheme = theme[0];
     super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
-
     ConfigProvider configProvider = Provider.of<ConfigProvider>(context);
     return Column(
       children: [
@@ -43,7 +43,6 @@ class _ProfileState extends State<Profile> {
           onChange: (value) {
             selectLanguage = value!;
             configProvider.configLanguage(value == "عربي" ? "ar" : "en");
-            setState(() {});
           },
         ),
         ProfileDropDownButton(
@@ -53,9 +52,8 @@ class _ProfileState extends State<Profile> {
           onChange: (value) {
             selectTheme = value!;
             configProvider.configTheme(
-              value == AppLocalizations.of(context)!.light? ThemeMode.light : ThemeMode.dark,
+              value == 'Light' ? ThemeMode.light : ThemeMode.dark,
             );
-            setState(() {});
           },
         ),
         Spacer(),
