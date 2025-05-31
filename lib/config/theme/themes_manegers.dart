@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 abstract class ThemesManegers {
   static ThemeData light = ThemeData(
+    canvasColor: ColorsManager.white,
     primaryColor: ColorsManager.blue,
     secondaryHeaderColor: ColorsManager.white,
     indicatorColor: ColorsManager.white,
@@ -58,7 +59,7 @@ abstract class ThemesManegers {
       displayMedium: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,
-        color: ColorsManager.white,
+        color: ColorsManager.black,
       ),
       labelMedium: TextStyle(
         fontSize: 16,
@@ -143,6 +144,7 @@ abstract class ThemesManegers {
       unselectedItemColor: Colors.white,
       selectedItemColor: Colors.white,
     ),
+    canvasColor: ColorsManager.white,
     textTheme: TextTheme(
       //tabBar color text
       displayMedium: TextStyle(

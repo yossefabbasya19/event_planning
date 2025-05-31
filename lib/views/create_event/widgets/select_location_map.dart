@@ -19,38 +19,42 @@ class _SelectLocationMapState extends State<SelectLocationMap> {
     // TODO: implement initState
     widget.provider.getLocation(context);
   }
+
   @override
   Widget build(BuildContext context) {
     PickLocation provider = widget.provider;
     return Scaffold(
       body: Consumer<PickLocation>(
-        builder: (context, value, child) =>  Column(
-          children: [
-            Expanded(
-              child: GoogleMap(
-                onMapCreated: (controller) {
-                  value.googleMapController = controller;
-                },
-                onTap: (argument) {
-                  value.onTapInMap(argument);
-                  Navigator.pop(context);
-                },
-                markers: value.marker,
-                initialCameraPosition: value.cameraPosition,
-              ),
+        builder:
+            (context, value, child) => Column(
+              children: [
+                Expanded(
+                  child: GoogleMap(
+                    onMapCreated: (controller) {
+                      value.googleMapController = controller;
+                    },
+                    onTap: (argument) {
+                      value.onTapInMap(argument);
+                      Navigator.pop(context);
+                    },
+                    markers: value.marker,
+                    initialCameraPosition: value.cameraPosition,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  alignment: Alignment.center,
+                  color: ColorsManager.blue,
+                  width: double.infinity,
+                  child: Text(
+                    "Tap on Location To Select",
+                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                      color: Theme.of(context).canvasColor,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              alignment: Alignment.center,
-              color: ColorsManager.blue,
-              width: double.infinity,
-              child: Text(
-                "Tap on Location To Select",
-                style: Theme.of(context).textTheme.displayMedium,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
