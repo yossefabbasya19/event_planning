@@ -7,9 +7,8 @@ import 'package:evently_plan/core/extintion/time_ex.dart';
 import 'package:evently_plan/core/firebase_service/firebase_service.dart';
 import 'package:evently_plan/core/my_router/my_router.dart';
 import 'package:evently_plan/core/validation_rules/validation_rules.dart';
-import 'package:evently_plan/views/create_event/feature_function/choose_date.dart';
-import 'package:evently_plan/views/create_event/feature_function/choose_time.dart';
 import 'package:evently_plan/core/provider/map_provider/pick_location.dart';
+import 'package:evently_plan/views/create_event/provider/create_event_provider.dart';
 import 'package:evently_plan/views/create_event/widgets/select_location_display.dart';
 import 'package:evently_plan/views/create_event/widgets/select_location_map.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -42,6 +41,18 @@ class _EditEventState extends State<EditEvent> {
   TimeOfDay? eventTime;
 
   @override
+  void initState() {
+    titleController.text = widget.eventDm.title;
+    descriptionController.text = widget.eventDm.description;
+    eventDate = widget.eventDm.eventDate;
+    eventTime = TimeOfDay(
+      hour: widget.eventDm.eventDate.hour,
+      minute: widget.eventDm.eventDate.minute,
+    );
+    super.initState();
+  }
+
+  @override
   void didChangeDependencies() {
     selectTab = getCategorysWithOutAll(
       context,
@@ -66,6 +77,9 @@ class _EditEventState extends State<EditEvent> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<PickLocation>(context);
+    CreateEventProvider createEventProvider = Provider.of<CreateEventProvider>(
+      context,
+    );
     List<Category> categorysWithOutAll = getCategorysWithOutAll(context);
     return Scaffold(
       appBar: AppBar(title: Text("Edit Event")),
@@ -106,13 +120,9 @@ class _EditEventState extends State<EditEvent> {
                   children: [
                     Text(
                       AppLocalizations.of(context)!.title,
-                      style: Theme
-                          .of(
+                      style: Theme.of(
                         context,
-                      )
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontSize: 16),
+                      ).textTheme.titleMedium!.copyWith(fontSize: 16),
                     ),
                     SizedBox(height: 8),
                     CustomTextFormField(
@@ -125,13 +135,9 @@ class _EditEventState extends State<EditEvent> {
                     SizedBox(height: 16),
                     Text(
                       AppLocalizations.of(context)!.description,
-                      style: Theme
-                          .of(
+                      style: Theme.of(
                         context,
-                      )
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontSize: 16),
+                      ).textTheme.titleMedium!.copyWith(fontSize: 16),
                     ),
                     SizedBox(height: 8),
                     CustomTextFormField(
@@ -150,16 +156,15 @@ class _EditEventState extends State<EditEvent> {
                           child: Text(
                             eventDate?.dateFormated ??
                                 AppLocalizations.of(context)!.event_date,
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .bodySmall,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ),
                         CustomTextButton(
                           txt: AppLocalizations.of(context)!.choose_date,
                           onPressed: () async {
-                            eventDate = await chooseDate(context);
+                            eventDate = await createEventProvider.chooseDate(
+                              context,
+                            );
                             setState(() {});
                           },
                         ),
@@ -173,16 +178,15 @@ class _EditEventState extends State<EditEvent> {
                           child: Text(
                             eventTime?.timeFormated ??
                                 AppLocalizations.of(context)!.event_time,
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .bodySmall,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ),
                         CustomTextButton(
                           txt: AppLocalizations.of(context)!.choose_time,
                           onPressed: () async {
-                            eventTime = await chooseTime(context);
+                            eventTime = await createEventProvider.chooseTime(
+                              context,
+                            );
                             eventDate = eventDate!.copyWith(
                               hour: eventTime!.hour,
                               minute: eventTime!.minute,
@@ -195,10 +199,7 @@ class _EditEventState extends State<EditEvent> {
                     CustomWidgetToDisplayInfo(
                       imagePath: AssetsManeger.locationLogo,
                       title: Text(
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .labelMedium,
+                        style: Theme.of(context).textTheme.labelMedium,
                         address ??
                             AppLocalizations.of(context)!.choose_event_location,
                       ),
@@ -209,14 +210,13 @@ class _EditEventState extends State<EditEvent> {
                           MaterialPageRoute(
                             builder:
                                 (context) =>
-                                SelectLocationMap(provider: provider!),
+                                    SelectLocationMap(provider: provider!),
                           ),
                         );
-                        address = await getLocationAddress(provider!
-                            .eventLocation!);
-                        setState(() {
-
-                        });
+                        address = await getLocationAddress(
+                          provider!.eventLocation!,
+                        );
+                        setState(() {});
                       },
                     ),
 
@@ -224,38 +224,43 @@ class _EditEventState extends State<EditEvent> {
                     CustomElevatedButton(
                       txt: 'Update Event',
                       onPressed: () {
-                       /* if (formKey.currentState!.validate()) {
+                        /* if (formKey.currentState!.validate()) {
                           if (provider!.eventLocation == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text("plz enter place")),
                             );
                             return;
                           }*/
-                          updateEvent(
-                            EventDm(
-                                eventID: widget.eventDm.eventID,
-                                userID: UserDm.currentUser!.userID,
-                                title:
+                        updateEvent(
+                          EventDm(
+                            eventID: widget.eventDm.eventID,
+                            userID: UserDm.currentUser!.userID,
+                            title:
                                 titleController.text.isEmpty
                                     ? widget.eventDm.title
                                     : titleController.text,
-                                description:
+                            description:
                                 descriptionController.text.isEmpty
                                     ? widget.eventDm.description
                                     : descriptionController.text,
-                                category:
+                            category:
                                 selectedCategory ??
-                                    categorysWithOutAll[selectTab],
-                                eventDate: eventDate ??
-                                    widget.eventDm.eventDate,
-                                lng: provider?.eventLocation?.longitude??widget.eventDm.lng,
-                                lat: provider?.eventLocation?.latitude??widget.eventDm.lat
-                            ),
-                          );
-                          Navigator.pushReplacementNamed(context, MyRouter
-                              .mainLayout);
-                        }
-                     // },
+                                categorysWithOutAll[selectTab],
+                            eventDate: eventDate ?? widget.eventDm.eventDate,
+                            lng:
+                                provider?.eventLocation?.longitude ??
+                                widget.eventDm.lng,
+                            lat:
+                                provider?.eventLocation?.latitude ??
+                                widget.eventDm.lat,
+                          ),
+                        );
+                        Navigator.pushReplacementNamed(
+                          context,
+                          MyRouter.mainLayout,
+                        );
+                      },
+                      // },
                     ),
                   ],
                 ),

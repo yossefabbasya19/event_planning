@@ -4,10 +4,8 @@ import 'package:evently_plan/core/extintion/date_ex.dart';
 import 'package:evently_plan/core/extintion/time_ex.dart';
 import 'package:evently_plan/core/provider/config_provider/config_provider.dart';
 import 'package:evently_plan/core/validation_rules/validation_rules.dart';
-import 'package:evently_plan/views/create_event/feature_function/add_event.dart';
-import 'package:evently_plan/views/create_event/feature_function/choose_date.dart';
-import 'package:evently_plan/views/create_event/feature_function/choose_time.dart';
 import 'package:evently_plan/core/provider/map_provider/pick_location.dart';
+import 'package:evently_plan/views/create_event/provider/create_event_provider.dart';
 import 'package:evently_plan/views/create_event/widgets/select_location_display.dart';
 import 'package:evently_plan/views/create_event/widgets/select_location_map.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -52,6 +50,7 @@ String? address;
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<PickLocation>(context);
+    CreateEventProvider createEventProvider = Provider.of<CreateEventProvider>(context);
     List<Category> categorysWithOutAll = getCategorysWithOutAll(context);
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.create_event)),
@@ -134,7 +133,7 @@ String? address;
                         CustomTextButton(
                           txt: AppLocalizations.of(context)!.choose_date,
                           onPressed: () async {
-                            eventDate = await chooseDate(context);
+                            eventDate = await createEventProvider.chooseDate(context);
                             setState(() {});
                           },
                         ),
@@ -154,7 +153,7 @@ String? address;
                         CustomTextButton(
                           txt: AppLocalizations.of(context)!.choose_time,
                           onPressed: () async {
-                            eventTime = await chooseTime(context);
+                            eventTime = await createEventProvider.chooseTime(context);
                             eventDate = eventDate!.copyWith(
                               hour: eventTime!.hour,
                               minute: eventTime!.minute,
@@ -197,7 +196,7 @@ String? address;
                             );
                             return;
                           }
-                          addEvent(
+                          createEventProvider.addEvent(
                             provider!.eventLocation!,
                             titleController,
                             descriptionController,
@@ -205,7 +204,7 @@ String? address;
                             eventDate,
                             context,
                           );
-                          Navigator.pop(context);
+
                         }
                       },
                     ),

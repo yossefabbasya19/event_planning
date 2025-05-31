@@ -6,6 +6,7 @@ import 'package:evently_plan/views/Authentication/signup/cubit/create_account_cu
 import 'package:evently_plan/views/Authentication/signup/repo/signup_repo_impl.dart';
 import 'package:evently_plan/views/Authentication/signup/signup.dart';
 import 'package:evently_plan/views/create_event/create_event.dart';
+import 'package:evently_plan/views/create_event/provider/create_event_provider.dart';
 import 'package:evently_plan/views/edit_event/edit_event.dart';
 import 'package:evently_plan/views/event_details/event_details.dart';
 import 'package:evently_plan/views/forget_password/forget_password.dart';
@@ -13,6 +14,7 @@ import 'package:evently_plan/views/main_layout/main_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class MyRouter {
   static const String signIn = "/signIn";
@@ -44,7 +46,13 @@ class MyRouter {
       case mainLayout:
         return CupertinoPageRoute(builder: (context) => MainLayout());
       case createEvent:
-        return MaterialPageRoute(builder: (context) => CreateEvent());
+        return MaterialPageRoute(
+          builder:
+              (context) => ChangeNotifierProvider(
+                create: (context) => CreateEventProvider(),
+                child: CreateEvent(),
+              ),
+        );
       case eventDetails:
         return MaterialPageRoute(
           builder:
@@ -53,7 +61,10 @@ class MyRouter {
       case eventEdit:
         return MaterialPageRoute(
           builder:
-              (context) => EditEvent(eventDm: settings.arguments as EventDm),
+              (context) => ChangeNotifierProvider(
+                create: (context) => CreateEventProvider(),
+                child: EditEvent(eventDm: settings.arguments as EventDm),
+              ),
         );
       case forgetPassword:
         return MaterialPageRoute(builder: (context) => ForgetPassword());

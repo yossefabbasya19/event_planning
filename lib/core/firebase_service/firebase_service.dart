@@ -5,6 +5,7 @@ import 'package:evently_plan/core/DM/user_DM.dart';
 import 'package:evently_plan/core/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class FirebaseService {
   static CollectionReference<EventDm> getCollectionRef(BuildContext context) {
@@ -102,21 +103,55 @@ abstract class FirebaseService {
   static Future<void> addEventToFavoritesList(String eventID) async {
     List<String> userFavorites = UserDm.currentUser!.favoritesList;
     userFavorites.add(eventID);
-    UserDm.currentUser!.favoritesList=userFavorites;
+    UserDm.currentUser!.favoritesList = userFavorites;
     addUserToFireStore(UserDm.currentUser!);
   }
+
   static Future<void> removeEventFromFavoritesList(String eventID) async {
     List<String> userFavorites = UserDm.currentUser!.favoritesList;
     userFavorites.remove(eventID);
-    UserDm.currentUser!.favoritesList=userFavorites;
+    UserDm.currentUser!.favoritesList = userFavorites;
     addUserToFireStore(UserDm.currentUser!);
   }
-  static Future<void> deleteSelectEvent(String eventID,BuildContext context) async{
-    CollectionReference<EventDm> events =getCollectionRef(context);
+
+  static Future<void> deleteSelectEvent(
+    String eventID,
+    BuildContext context,
+  ) async {
+    CollectionReference<EventDm> events = getCollectionRef(context);
     await events.doc(eventID).delete();
   }
-  static Future<void> updateSelectEvent(BuildContext context,EventDm event) async{
-    CollectionReference<EventDm> events =getCollectionRef(context);
+
+  static Future<void> updateSelectEvent(
+    BuildContext context,
+    EventDm event,
+  ) async {
+    CollectionReference<EventDm> events = getCollectionRef(context);
     await events.doc(event.eventID).set(event);
+  }
+
+  static Future<void> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    if(googleUser ==null)return;
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    UserCredential googleCredential = await FirebaseAuth.instance
+        .signInWithCredential(credential);
+    addUserToFireStore(
+      UserDm(
+        userID: googleCredential.user!.uid,
+        userName: googleCredential.user!.displayName!,
+        email: googleCredential.user!.email!,
+        favoritesList: [],
+      ),
+    );
+    UserDm.currentUser = await getUserFromDocsByID(googleCredential.user!.uid);
   }
 }
