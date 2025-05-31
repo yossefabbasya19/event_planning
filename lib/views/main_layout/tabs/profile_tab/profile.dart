@@ -7,6 +7,7 @@ import 'package:evently_plan/views/main_layout/tabs/profile_tab/widgets/profile_
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
@@ -74,6 +75,7 @@ class _ProfileState extends State<Profile> {
                 backgroundColor: ColorsManager.lightRed,
               ),
               onPressed: () {
+                GoogleSignIn().signOut();
                 FirebaseAuth.instance.signOut();
                 Navigator.pushReplacementNamed(context, MyRouter.signIn);
               },

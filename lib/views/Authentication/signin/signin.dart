@@ -1,4 +1,5 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:evently_plan/core/firebase_service/firebase_service.dart';
 import 'package:evently_plan/views/Authentication/signin/cubit/login_account_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -127,7 +128,10 @@ class _SigninState extends State<Signin> {
                               ),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: ()async {
+                            await FirebaseService.signInWithGoogle();
+                            Navigator.pushReplacementNamed(context, MyRouter.mainLayout);
+                          },
                           label: Text(
                             AppLocalizations.of(context)!.login_with_google,
                             style: TextStyle(
