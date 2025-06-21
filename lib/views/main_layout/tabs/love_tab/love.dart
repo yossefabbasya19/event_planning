@@ -1,6 +1,6 @@
 import 'package:evently_plan/core/DM/user_DM.dart';
-import 'package:evently_plan/core/colors_maneger.dart';
 import 'package:evently_plan/core/firebase_service/firebase_service.dart';
+import 'package:evently_plan/core/helper/snack_bar.dart';
 import 'package:evently_plan/views/main_layout/tabs/home_tab/cubit/add_event_to_favorite_list/add_event_to_favorite_list_cubit.dart';
 import 'package:evently_plan/views/main_layout/tabs/home_tab/widgets/event_details_card.dart';
 import 'package:evently_plan/views/main_layout/tabs/love_tab/cubit/search_about_favorites_cubit.dart';
@@ -63,35 +63,28 @@ class _LoveState extends State<Love> {
                           },
                         ),
                       ),
-                      BlocBuilder<
-                        SearchAboutFavoritesCubit,
-                        SearchAboutFavoritesState
-                      >(
+                      BlocConsumer<SearchAboutFavoritesCubit,SearchAboutFavoritesState>(
                         builder: (context, state) {
-                          if (state is SearchAboutFavoritesSuccess) {
-                            return Expanded(
-                              child: ListView.builder(
-                                itemCount: snapShot.data!.length,
-                                itemBuilder: (context, index) {
-                                  if (currentUserFavorites.contains(
-                                    snapShot.data![index].eventID,
-                                  )) {
-                                    return EventDetailsCard(
-                                      eventDm: snapShot.data![index],
-                                    );
-                                  } else {
-                                    return SizedBox();
-                                  }
-                                },
-                              ),
-                            );
-                          } else {
-                            {
-                              return Text(
-                                "do not founed this value",
-                                style: TextStyle(color: ColorsManager.red),
-                              );
-                            }
+                          return Expanded(
+                            child: ListView.builder(
+                              itemCount: snapShot.data!.length,
+                              itemBuilder: (context, index) {
+                                if (currentUserFavorites.contains(
+                                  snapShot.data![index].eventID,
+                                )) {
+                                  return EventDetailsCard(
+                                    eventDm: snapShot.data![index],
+                                  );
+                                } else {
+                                  return SizedBox();
+                                }
+                              },
+                            ),
+                          );
+                        },
+                        listener: (context, state) {
+                          if(state is SearchAboutFavoritesFailure){
+                            snackBar(context,' this item not founded');
                           }
                         },
                       ),
