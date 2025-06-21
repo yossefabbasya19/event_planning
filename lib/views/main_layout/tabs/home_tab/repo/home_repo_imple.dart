@@ -12,7 +12,7 @@ class HomeRepoImple extends HomeRepo{
       return Right(added);
     }catch (e){
       if(e is FirebaseException){
-        return Left(FireBaseFailure(e.code));
+        return Left(FireBaseFailure(e.message!));
       }
       return Left(FireBaseFailure(e.toString()));
     }
@@ -25,7 +25,7 @@ class HomeRepoImple extends HomeRepo{
       return Right(added);
     }catch (e){
       if(e is FirebaseException){
-        return Left(FireBaseFailure(e.code));
+        return Left(FireBaseFailure(e.message!));
       }
       return Left(FireBaseFailure(e.toString()));
     }

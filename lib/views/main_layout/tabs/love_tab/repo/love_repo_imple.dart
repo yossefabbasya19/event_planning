@@ -14,7 +14,7 @@ class LoveRepoImple extends LoveRepo {
     currentUserFavoritesWithSearch = [];
     currentUserFavorites = UserDm.currentUser!.favoritesList;
     snapShot.data!.map((e) {
-      if (e.description.contains(value!.trim()) &&
+      if (e.title.contains(value!.trim()) &&
           currentUserFavorites.contains(e.eventID)) {
         currentUserFavoritesWithSearch.add(e.eventID);
       } else if (value.isEmpty) {
