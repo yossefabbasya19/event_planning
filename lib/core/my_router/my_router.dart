@@ -1,15 +1,20 @@
 import 'package:evently_plan/core/DM/event_Dm.dart';
-import 'package:evently_plan/views/Authentication/signin/cubit/login_account_cubit.dart';
-import 'package:evently_plan/views/Authentication/signin/repo/log_in_repo_imple.dart';
-import 'package:evently_plan/views/Authentication/signin/signin.dart';
-import 'package:evently_plan/views/Authentication/signup/cubit/create_account_cubit.dart';
-import 'package:evently_plan/views/Authentication/signup/repo/signup_repo_impl.dart';
-import 'package:evently_plan/views/Authentication/signup/signup.dart';
-import 'package:evently_plan/views/create_event/create_event.dart';
-import 'package:evently_plan/views/create_event/provider/create_event_provider.dart';
-import 'package:evently_plan/views/edit_event/edit_event.dart';
-import 'package:evently_plan/views/event_details/event_details.dart';
-import 'package:evently_plan/views/forget_password/forget_password.dart';
+import 'package:evently_plan/views/Authentication/data/repo/auth_repo_imple.dart';
+import 'package:evently_plan/views/Authentication/views/views/signin.dart';
+import 'package:evently_plan/views/Authentication/views/views_model/login_with_google_cubit/login_with_google_cubit.dart';
+import 'package:evently_plan/views/Authentication/views/views_model/signup_cubit/create_account_cubit.dart';
+import 'package:evently_plan/views/Authentication/views/views/signup.dart';
+import 'package:evently_plan/views/Authentication/views/views_model/log_in_cubit/login_account_cubit.dart';
+import 'package:evently_plan/views/create_event/data/repo/create_event_repo_impl.dart';
+import 'package:evently_plan/views/create_event/presentation/view/create_event.dart';
+import 'package:evently_plan/views/create_event/presentation/view_model/create_event_provider.dart';
+import 'package:evently_plan/views/edit_event/data/repo/edit_event_implementation.dart';
+import 'package:evently_plan/views/edit_event/presentation/views/edit_event.dart';
+import 'package:evently_plan/views/edit_event/presentation/views_model/update_event_provider.dart';
+import 'package:evently_plan/views/event_details/presentation/views/event_details.dart';
+import 'package:evently_plan/views/forget_password/data/forget_password_repo_implement.dart';
+import 'package:evently_plan/views/forget_password/presentation/view_model/forgen_password_provider.dart';
+import 'package:evently_plan/views/forget_password/presentation/views/forget_password.dart';
 import 'package:evently_plan/views/main_layout/main_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +35,15 @@ class MyRouter {
       case signIn:
         return CupertinoPageRoute(
           builder:
-              (context) => BlocProvider(
-                create: (context) => LoginAccountCubit(LogInRepoImple()),
+              (context) => MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) => LoginAccountCubit(AuthRepoImple()),
+                  ),
+                  BlocProvider(
+                    create: (context) => LoginWithGoogleCubit(AuthRepoImple()),
+                  ),
+                ],
                 child: Signin(),
               ),
         );
@@ -39,7 +51,7 @@ class MyRouter {
         return CupertinoPageRoute(
           builder:
               (context) => BlocProvider(
-                create: (context) => CreateAccountCubit(SignupRepoImpl()),
+                create: (context) => CreateAccountCubit(AuthRepoImple()),
                 child: Signup(),
               ),
         );
@@ -49,7 +61,7 @@ class MyRouter {
         return MaterialPageRoute(
           builder:
               (context) => ChangeNotifierProvider(
-                create: (context) => CreateEventProvider(),
+                create: (context) => CreateEventProvider(CreateEventRepoImpl()),
                 child: CreateEvent(),
               ),
         );
@@ -62,12 +74,21 @@ class MyRouter {
         return MaterialPageRoute(
           builder:
               (context) => ChangeNotifierProvider(
-                create: (context) => CreateEventProvider(),
+                create:
+                    (context) => UpdateEventProvider(EditEventImplementation()),
                 child: EditEvent(eventDm: settings.arguments as EventDm),
               ),
         );
       case forgetPassword:
-        return MaterialPageRoute(builder: (context) => ForgetPassword());
+        return MaterialPageRoute(
+          builder:
+              (context) => ChangeNotifierProvider(
+                create:
+                    (context) =>
+                        ForgetPasswordProvider(ForgetPasswordRepoImplement()),
+                child: ForgetPassword(),
+              ),
+        );
     }
     return null;
   }

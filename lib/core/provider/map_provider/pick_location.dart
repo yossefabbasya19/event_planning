@@ -33,7 +33,7 @@ class PickLocation extends ChangeNotifier {
     return serviceEnabled;
   }
 
-  changeInMap(double lat, double lng) async {
+  Future<void> changeInMap(double lat, double lng) async {
     cameraPosition = CameraPosition(zoom: 14, target: LatLng(lat, lng));
     marker = {};
     marker.add(Marker(markerId: MarkerId("1"), position: LatLng(lat, lng)));
@@ -42,7 +42,7 @@ class PickLocation extends ChangeNotifier {
     );
     notifyListeners();
   }
-
+ LatLng? latLng;
   Future<void> getLocation(BuildContext context) async {
     bool permissionStatus = await checkPermissionStatus();
     if (!permissionStatus) {
@@ -56,6 +56,8 @@ class PickLocation extends ChangeNotifier {
       return;
     }
     currentLocation = await location.getLocation();
+    latLng  = LatLng(currentLocation!.latitude!, currentLocation!.longitude!);
+
     changeInMap(
       currentLocation?.latitude ?? 0,
       currentLocation?.longitude ?? 0,

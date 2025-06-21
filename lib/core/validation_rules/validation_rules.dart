@@ -1,4 +1,10 @@
 abstract class ValidationRules {
+  static String? isFieldEmpty(String? value){
+    if (value!.isEmpty) {
+      return "plz,enter value";
+    }
+    return null;
+  }
   static String? titleValidation(String? titleInput) {
     if (titleInput!.isEmpty) {
       return "Plz , Enter Title";

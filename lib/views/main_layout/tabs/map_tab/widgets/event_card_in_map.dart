@@ -35,8 +35,8 @@ class _EventCardInMapState extends State<EventCardInMap> {
     return address == ''
         ? Center(child: CircularProgressIndicator(color: ColorsManager.blue))
         : GestureDetector(
-          onTap: () {
-            provider.changeInMap(widget.event.lat!, widget.event.lng!);
+          onTap: () async{
+            await provider.changeInMap(widget.event.lat!, widget.event.lng!);
           },
           child: Padding(
             padding: const EdgeInsets.only(bottom: 33),

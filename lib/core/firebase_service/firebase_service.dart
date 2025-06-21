@@ -130,9 +130,9 @@ abstract class FirebaseService {
     await events.doc(event.eventID).set(event);
   }
 
-  static Future<void> signInWithGoogle() async {
+  static Future<OAuthCredential?> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    if(googleUser ==null)return;
+    if(googleUser ==null)return null;
 
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
@@ -153,5 +153,6 @@ abstract class FirebaseService {
       ),
     );
     UserDm.currentUser = await getUserFromDocsByID(googleCredential.user!.uid);
+  return credential;
   }
 }
