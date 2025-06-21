@@ -5,24 +5,24 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SelectLocationMap extends StatefulWidget {
-  final PickLocation provider;
 
-  const SelectLocationMap({super.key, required this.provider});
+  const SelectLocationMap({super.key});
 
   @override
   State<SelectLocationMap> createState() => _SelectLocationMapState();
 }
 
 class _SelectLocationMapState extends State<SelectLocationMap> {
+ late  PickLocation pickLocation;
   @override
   void initState() {
-    // TODO: implement initState
-    widget.provider.getLocation(context);
+    pickLocation = PickLocation();
+    pickLocation.getLocation(context);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    PickLocation provider = widget.provider;
     return Scaffold(
       body: Consumer<PickLocation>(
         builder:
