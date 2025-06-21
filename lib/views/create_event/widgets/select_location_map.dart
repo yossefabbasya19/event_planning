@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:evently_plan/core/colors_maneger.dart';
 import 'package:evently_plan/core/provider/map_provider/pick_location.dart';
 import 'package:flutter/material.dart';
@@ -5,24 +7,25 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SelectLocationMap extends StatefulWidget {
-  final PickLocation provider;
 
-  const SelectLocationMap({super.key, required this.provider});
+  const SelectLocationMap({super.key});
 
   @override
   State<SelectLocationMap> createState() => _SelectLocationMapState();
 }
 
 class _SelectLocationMapState extends State<SelectLocationMap> {
+  late PickLocation pickLocation;
+
   @override
   void initState() {
-    // TODO: implement initState
-    widget.provider.getLocation(context);
+    pickLocation = PickLocation();
+    pickLocation.getLocation(context);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    PickLocation provider = widget.provider;
     return Scaffold(
       body: Consumer<PickLocation>(
         builder:
